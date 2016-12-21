@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.lastminutegroup.gui;
+package com.lastminutegroup.project.salestax.entity;
 
 import java.util.ArrayList;
 
@@ -13,21 +13,21 @@ import java.util.ArrayList;
  */
 public class ListOfProduct {
 
-    private ArrayList<String> Basket;
+    private ArrayList<String> Products;
 
     private ArrayList<String> ProductIDs;
 
     public ListOfProduct() {
-        Basket = new ArrayList<String>();
+        Products = new ArrayList<String>();
         ProductIDs = new ArrayList<String>();
     }
 
-    public ArrayList<String> getBasket() {
-        return Basket;
+    public ArrayList<String> getProducts() {
+        return Products;
     }
 
-    public void setBasket(ArrayList<String> Basket) {
-        this.Basket = Basket;
+    public void setProducts(ArrayList<String> Products) {
+        this.Products = Products;
     }
 
     public ArrayList<String> getProductIDs() {
@@ -38,9 +38,9 @@ public class ListOfProduct {
         this.ProductIDs = ProductIDs;
     }
 
-    public void addToBasket(String string) {
+    public void addToProducts(String string) {
     
-        this.Basket.add(string);
+        this.Products.add(string);
 
     }
     
@@ -50,18 +50,23 @@ public class ListOfProduct {
         
     }
 
-    int size() {
-        return this.Basket.size();
+    public int size() {
+        return this.Products.size();
     }
 
-    void clear() {
-        this.Basket.clear();
+    public void clear() {
+        this.Products.clear();
         this.ProductIDs.clear();
     }
 
-    void remove(int selectedIndex) {
-        this.Basket.remove(selectedIndex);
+    public void remove(int selectedIndex) {
+        this.Products.remove(selectedIndex);
         this.ProductIDs.remove(selectedIndex);
+    }
+
+    public void addAll(ListOfProduct SelectedProduct) {
+        this.Products.addAll(SelectedProduct.getProducts());
+        this.ProductIDs.addAll(SelectedProduct.getProductIDs());
     }
     
 

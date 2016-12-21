@@ -5,6 +5,7 @@
  */
 package com.lastminutegroup.gui;
 
+import com.lastminutegroup.project.salestax.entity.ListOfProduct;
 import com.lastminutegroup.project.salestax.entity.EvaluateProduct;
 import com.lastminutegroup.project.salestax.entity.Product;
 import java.awt.Component;
@@ -47,7 +48,8 @@ public class ClientInterface extends javax.swing.JFrame {
     public ClientInterface() throws FileNotFoundException, IOException {
 
         initComponents();
-        FileInputStream in = new FileInputStream("/Users/Lucci/NetBeansProjects/project/src/DB/Database.xls");
+
+        FileInputStream in = new FileInputStream("./src/DB/Database.xls");
         POIFSFileSystem fs = new POIFSFileSystem(in);
         HSSFWorkbook wb = new HSSFWorkbook(fs);
         HSSFSheet sheet = wb.getSheetAt(0);
@@ -67,7 +69,7 @@ public class ClientInterface extends javax.swing.JFrame {
 
         db = new ArrayList<Product>();
         SelectedProduct = new ListOfProduct();
-        Basket = new ListOfProduct();
+        Basket          = new ListOfProduct();
 
         for (int i = 1; i < rows; i++) {
 
@@ -84,17 +86,17 @@ public class ClientInterface extends javax.swing.JFrame {
         }
 
         for (int i = 0; i < rows - 1; i++) {
-            SelectedProduct.addToBasket(db.get(i).getProduct_ID() + "-" + db.get(i).getName() + " " + db.get(i).getPrice());
-            SelectedProduct.addToProductIDs(String.valueOf(db.get(i).getProduct_ID()));
+            this.SelectedProduct.addToProducts(db.get(i).getProduct_ID() + "-" + db.get(i).getName() + " at " + db.get(i).getPrice());
+            this.SelectedProduct.addToProductIDs(String.valueOf(db.get(i).getProduct_ID()));
         }
 
-        ListSelectedProduct = new JList(makeStrings(SelectedProduct.getBasket()));
+        ListSelectedProduct = new JList(makeStrings(this.SelectedProduct.getProducts()));
         ListSelectedProduct.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         ListSelectedProduct.setSelectedIndex(0);
-        jScrollPane2.setViewportView(ListSelectedProduct);
-        jButton2.setVisible(false);
-        jButton4.setVisible(false);
-
+        jScrollPaneShowProduct.setViewportView(ListSelectedProduct);
+        jButtonRemove.setVisible(false);
+        jButtonReset.setVisible(false);
+        System.out.println(SelectedProduct.getProducts().get(2));
     }
 
     /**
@@ -111,20 +113,21 @@ public class ClientInterface extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTextPane1 = new javax.swing.JTextPane();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextPaneTotal = new javax.swing.JTextPane();
+        jButtonAdd = new javax.swing.JButton();
+        jButtonRemove = new javax.swing.JButton();
+        jButtonBuy = new javax.swing.JButton();
+        jButtonReset = new javax.swing.JButton();
+        jScrollPaneShowBasket = new javax.swing.JScrollPane();
+        jScrollPaneShowProduct = new javax.swing.JScrollPane();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        jTextAreaShowDetails = new javax.swing.JTextArea();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane6 = new javax.swing.JScrollPane();
-        jTextPane2 = new javax.swing.JTextPane();
+        jTextPaneTotalTax = new javax.swing.JTextPane();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel6 = new javax.swing.JLabel();
+        jButtonAddAll = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -134,45 +137,52 @@ public class ClientInterface extends javax.swing.JFrame {
 
         jLabel4.setText("Total:");
 
-        jScrollPane3.setViewportView(jTextPane1);
+        jScrollPane3.setViewportView(jTextPaneTotal);
 
-        jButton1.setText("Add");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonAdd.setText("Add");
+        jButtonAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonAddActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Remove");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jButtonRemove.setText("Remove");
+        jButtonRemove.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jButtonRemoveActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Buy");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        jButtonBuy.setText("Buy");
+        jButtonBuy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                jButtonBuyActionPerformed(evt);
             }
         });
 
-        jButton4.setText("Reset");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        jButtonReset.setText("Reset");
+        jButtonReset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                jButtonResetActionPerformed(evt);
             }
         });
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane5.setViewportView(jTextArea1);
+        jTextAreaShowDetails.setColumns(20);
+        jTextAreaShowDetails.setRows(5);
+        jScrollPane5.setViewportView(jTextAreaShowDetails);
 
         jLabel5.setText("Total Tax:");
 
-        jScrollPane6.setViewportView(jTextPane2);
+        jScrollPane6.setViewportView(jTextPaneTotalTax);
 
         jLabel6.setText("Details");
+
+        jButtonAddAll.setText("Add all");
+        jButtonAddAll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAddAllActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -182,20 +192,8 @@ public class ClientInterface extends javax.swing.JFrame {
                 .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1)
-                            .addComponent(jLabel6))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton2)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(89, 89, 89))
+                        .addComponent(jLabel6)
+                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -213,8 +211,25 @@ public class ClientInterface extends javax.swing.JFrame {
                                 .addGap(112, 112, 112))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton3)
-                                .addGap(33, 33, 33))))))
+                                .addComponent(jButtonBuy)
+                                .addGap(33, 33, 33))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButtonAdd)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButtonAddAll))
+                            .addComponent(jScrollPaneShowProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButtonRemove)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButtonReset, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPaneShowBasket, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(40, 40, 40))))
             .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         layout.setVerticalGroup(
@@ -226,14 +241,16 @@ public class ClientInterface extends javax.swing.JFrame {
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2))
+                    .addComponent(jScrollPaneShowBasket, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                    .addComponent(jScrollPaneShowProduct))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton2)
-                        .addComponent(jButton4)))
+                        .addComponent(jButtonAdd)
+                        .addComponent(jButtonAddAll))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButtonRemove)
+                        .addComponent(jButtonReset)))
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -250,37 +267,41 @@ public class ClientInterface extends javax.swing.JFrame {
                             .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
-                        .addComponent(jButton3)))
+                        .addComponent(jButtonBuy)))
                 .addGap(19, 19, 19))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jButtonRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoveActionPerformed
         // TODO add your handling code here:
         if (ListBasket.getSelectedValue() != null) {
 
             Basket.remove(ListBasket.getSelectedIndex());
 
             if (Basket.size() == 0) {
-                jButton2.setVisible(false);
-                jButton4.setVisible(false);
+                jScrollPaneShowBasket.setViewportView(null);
+                jButtonRemove.setVisible(false);
+                jButtonReset.setVisible(false);
+
+            } else {
+
+                ListBasket = new JList(makeStrings(Basket.getProducts()));
+                jScrollPaneShowBasket.setViewportView(ListBasket);
+
             }
 
-            ListBasket = new JList(makeStrings(Basket.getBasket()));
-            jScrollPane1.setViewportView(ListBasket);
-
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_jButtonRemoveActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void jButtonBuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuyActionPerformed
         // TODO add your handling code here:
-        
-        jTextArea1.setText(null);
-        jTextPane1.setText(null);
-        jTextPane2.setText(null);
-        
+
+        jTextAreaShowDetails.setText(null);
+        jTextPaneTotal.setText(null);
+        jTextPaneTotalTax.setText(null);
+
         order = new ArrayList<Product>();
 
         for (int i = 0; i < Basket.size(); i++) {
@@ -292,20 +313,60 @@ public class ClientInterface extends javax.swing.JFrame {
 
         for (int i = 0; i < order.size(); i++) {
 
-            jTextArea1.append(order.get(i).getName() + ": " + (float) (order.get(i).getTotalPrice() + order.get(i).calculateTax()));
-            jTextArea1.append("\n");
+            jTextAreaShowDetails.append(order.get(i).getName() + ": " + (float) (order.get(i).getTotalPrice() + order.get(i).calculateTax()));
+            jTextAreaShowDetails.append("\n");
 
             total += (order.get(i).getTotalPrice() + order.get(i).calculateTax());
             totalTax += order.get(i).calculateTax();
         }
+
+        jTextPaneTotal.setText(String.valueOf((float) total));
+        jTextPaneTotalTax.setText(String.valueOf((float) totalTax));
+
+    }//GEN-LAST:event_jButtonBuyActionPerformed
+
+
+    private void jButtonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddActionPerformed
+        // TODO add your handling code here:
+
+        Basket.addToProducts(ListSelectedProduct.getSelectedValue());
+        Basket.addToProductIDs(ListSelectedProduct.getSelectedValue().substring(0, ListSelectedProduct.getSelectedValue().indexOf("-")));
+        ListBasket = new JList(makeStrings(Basket.getProducts()));
+        jScrollPaneShowBasket.setViewportView(ListBasket);
+        ListBasket.setSelectedIndex(Basket.size() - 1);
+        jButtonRemove.setVisible(true);
+        jButtonReset.setVisible(true);
+
+
+    }//GEN-LAST:event_jButtonAddActionPerformed
+
+    private void jButtonResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonResetActionPerformed
+        // TODO add your handling code here:
         
-        
-        jTextPane1.setText(String.valueOf((float) total));
-        jTextPane2.setText(String.valueOf((float) totalTax));
+        ListBasket.removeAll();
+        System.out.println(SelectedProduct.getProducts().size());
         Basket.clear();
-        ListBasket = new JList(makeStrings(Basket.getBasket()));
-        jScrollPane1.setViewportView(ListBasket);
-    }//GEN-LAST:event_jButton3ActionPerformed
+        System.out.println(SelectedProduct.getProducts().size());
+        jTextAreaShowDetails.setText(null);
+        jTextPaneTotal.setText(null);
+        jTextPaneTotalTax.setText(null);
+        jScrollPaneShowBasket.setViewportView(null);
+        jButtonRemove.setVisible(false);
+        jButtonReset.setVisible(false);
+        
+    }//GEN-LAST:event_jButtonResetActionPerformed
+
+    private void jButtonAddAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddAllActionPerformed
+        // TODO add your handling code here:
+
+        Basket.addAll(SelectedProduct);
+        ListBasket = new JList(makeStrings(Basket.getProducts()));
+        jScrollPaneShowBasket.setViewportView(ListBasket);
+
+        jButtonRemove.setVisible(true);
+        jButtonReset.setVisible(true);
+
+    }//GEN-LAST:event_jButtonAddAllActionPerformed
 
     public Product getProductfromDB(String ProductID) {
 
@@ -328,37 +389,6 @@ public class ClientInterface extends javax.swing.JFrame {
         return total;
 
     }
-
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-
-        Basket.addToBasket(ListSelectedProduct.getSelectedValue());
-        Basket.addToProductIDs(ListSelectedProduct.getSelectedValue().substring(0, ListSelectedProduct.getSelectedValue().indexOf("-")));
-
-        ListBasket = new JList(makeStrings(Basket.getBasket()));
-        jScrollPane1.setViewportView(ListBasket);
-        ListBasket.setSelectedIndex(Basket.size() - 1);
-        jButton2.setVisible(true);
-        jButton4.setVisible(true);
-
-
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-
-        ListBasket.removeAll();
-        Basket.clear();
-        jTextArea1.setText(null);
-        jTextPane1.setText(null);
-        jTextPane2.setText(null);
-        
-
-        ListBasket = new JList(makeStrings(Basket.getBasket()));
-        jScrollPane1.setViewportView(ListBasket);
-
-    }//GEN-LAST:event_jButton4ActionPerformed
 
     private String[] makeStrings(ArrayList<String> Array) {
 
@@ -420,25 +450,26 @@ public class ClientInterface extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButtonAdd;
+    private javax.swing.JButton jButtonAddAll;
+    private javax.swing.JButton jButtonBuy;
+    private javax.swing.JButton jButtonRemove;
+    private javax.swing.JButton jButtonReset;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPaneShowBasket;
+    private javax.swing.JScrollPane jScrollPaneShowProduct;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextPane jTextPane1;
-    private javax.swing.JTextPane jTextPane2;
+    private javax.swing.JTextArea jTextAreaShowDetails;
+    private javax.swing.JTextPane jTextPaneTotal;
+    private javax.swing.JTextPane jTextPaneTotalTax;
     // End of variables declaration//GEN-END:variables
     private javax.swing.JList<String> ListSelectedProduct;
     private javax.swing.JList<String> ListBasket;
