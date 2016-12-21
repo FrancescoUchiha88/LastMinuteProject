@@ -17,11 +17,7 @@ public class ClassCProduct extends Product {
 
     @Override
     public double calculateTax() {
-        double tempTax;    
-        tempTax = this.getPrice() * 5 / 100;
-        tempTax = tempTax *  100;
-        tempTax = Math.ceil(tempTax / 5) * 5;
-        tempTax = tempTax /100;
-        return tempTax;
+        double TaxedPrice = this.getPrice() * 5 / 100;
+        return (Math.ceil((TaxedPrice * 100) / 5) * 5) / 100;
     }
 }
