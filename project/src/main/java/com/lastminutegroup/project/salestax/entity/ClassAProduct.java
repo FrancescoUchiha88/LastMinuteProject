@@ -7,14 +7,15 @@ package com.lastminutegroup.project.salestax.entity;
 
 /**
  *
- * @author Administrator
+ * @author Francesco Lucci
  */
 public class ClassAProduct extends Product {
 
-    public ClassAProduct(int product_id, String name, double d, String description, int quantity, String type, String imported) {
-        super(product_id, name, d, description, quantity, type, imported);
+    public ClassAProduct(int product_id, String name, double d, String description, String type, String imported) {
+        super(product_id, name, d, description, type, imported);
     }
 
+    @Override
     public double calculateTax() {
         return 0;
     }

@@ -3,18 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.lastminutegroup.project.salestax.entity;
+package com.lastminutegroup.project.salestax.gui;
 
 import java.util.ArrayList;
 
 /**
  *
- * @author Lucci
+ * @author Francesco Lucci
  */
 public class ListOfProduct {
 
     private ArrayList<String> Products;
-
     private ArrayList<String> ProductIDs;
 
     public ListOfProduct() {
@@ -38,16 +37,12 @@ public class ListOfProduct {
         this.ProductIDs = ProductIDs;
     }
 
-    public void addToProducts(String string) {
-    
+    public void addToProducts(String string) {   
         this.Products.add(string);
-
     }
     
     public void addToProductIDs(String string){
-    
-        this.ProductIDs.add(string);
-        
+        this.ProductIDs.add(string);       
     }
 
     public int size() {
